@@ -1,0 +1,33 @@
+# Node.js
+node_modules/
+dist/          # Compiled TypeScript output directory
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm/
+.yarn/
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# IDE and Editor Files
+.vscode/        # VS Code settings (uncomment if you want to share specific workspace settings)
+.idea/          # IntelliJ IDEA, WebStorm, etc.
+*.sublime-project
+*.sublime-workspace
+.DS_Store       # macOS specific files
+Thumbs.db       # Windows specific files
+
+# Testing
+coverage/
+
+# Docker volumes (where MinIO and Postgres data are stored locally)
+minio_data/     # MinIO persistent data folder
+pgdata/         # PostgreSQL persistent data volume (if created directly in project root)
+
+# Other
+*.tsbuildinfo   # TypeScript build info file for faster incremental builds
