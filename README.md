@@ -168,15 +168,108 @@ Before you begin, ensure you have the following installed:
 
     You should see messages indicating "Database synchronized successfully." and "Server running on port 3000".
 
-## API Endpoints (Quick Overview)
+## API Endpoints
 
-Once the server is running, you can interact with the API using tools like Postman, Insomnia, or curl.
+Once the server is running, you can interact with the API using tools like `curl` (command line) or GUI clients like Postman/Insomnia. All examples assume your API is running on `http://localhost:3000`.
 
-- `POST /api/articles`: Create a new article (supports `multipart/form-data` for `video` and `thumbnail` files, and JSON for `title`, `content`, `tags`, `categories`).
-- `GET /api/articles`: Retrieve all articles.
-- `GET /api/articles/:id`: Retrieve a single article by ID.
-- `PUT /api/articles/:id`: Update an existing article by ID.
-- `DELETE /api/articles/:id`: Delete an article by ID.
+### 1. `POST /api/articles` - Create a new article
+
+Creates a new article, optionally with an associated video and thumbnail image.
+This endpoint expects `multipart/form-data`.
+
+- **Method:** `POST`
+- **URL:** `http://localhost:3000/api/articles`
+- **`curl` Example:**
+
+  ```bash
+  curl -X POST \
+    -H "Content-Type: multipart/form-data" \
+    -F "title=My Awesome News Article" \
+    -F "content=This is the amazing content of my news article, detailing recent events and insights." \
+    -F "tags=news,technology,trending" \
+    -F "categories=breaking,science" \
+    -F "video=@/path/to/your/local/video.mp4" \
+    -F "thumbnail=@/path/to/your/local/image.jpg" \
+    http://localhost:3000/api/articles
+  ```
+
+  _(Replace `/path/to/your/local/video.mp4` and `/path/to/your/local/image.jpg` with actual paths on your machine. You can omit `video` or `thumbnail` if not needed.)_
+
+- **Postman/Insomnia Example:**
+  - Set **Method** to `POST`.
+  - Set **Body** to `form-data`.
+  - Add keys:
+    - `title` (Text): `My Awesome News Article`
+    - `content` (Text): `This is the amazing content of my news article, detailing recent events and insights.`
+    - `tags` (Text): `news,technology,trending`
+    - `categories` (Text): `breaking,science`
+    - `video` (File): Select your video file.
+    - `thumbnail` (File): Select your image file.
+
+### 2. `GET /api/articles` - Retrieve all articles
+
+Retrieves a list of all articles, including their associated tags and categories.
+
+- **Method:** `GET`
+- **URL:** `http://localhost:3000/api/articles`
+- **`curl` Example:**
+
+  ```bash
+  curl -X GET http://localhost:3000/api/articles
+  ```
+
+### 3. `GET /api/articles/:id` - Retrieve a single article
+
+Retrieves a specific article by its UUID.
+
+- **Method:** `GET`
+- **URL:** `http://localhost:3000/api/articles/YOUR_ARTICLE_UUID`
+  _(Replace `YOUR_ARTICLE_UUID` with an actual UUID from a created article, e.g., `a1b2c3d4-e5f6-4789-abcd-1234567890ab`)_
+- **`curl` Example:**
+
+  ```bash
+  curl -X GET http://localhost:3000/api/articles/a1b2c3d4-e5f6-4789-abcd-1234567890ab
+  ```
+
+### 4. `PUT /api/articles/:id` - Update an existing article
+
+Updates an existing article's title, content, tags, categories, or even image/video URLs (if provided directly).
+This endpoint expects `application/json`.
+
+- **Method:** `PUT`
+- **URL:** `http://localhost:3000/api/articles/YOUR_ARTICLE_UUID`
+  _(Replace `YOUR_ARTICLE_UUID` with the UUID of the article you want to update.)_
+- **`curl` Example:**
+
+  ```bash
+  curl -X PUT \
+    -H "Content-Type: application/json" \
+    -d '{
+      "title": "Updated Article Title",
+      "content": "This content has been updated to reflect recent changes.",
+      "tags": "updated,hot-news",
+      "categories": "local,politics"
+    }' \
+    http://localhost:3000/api/articles/a1b2c3d4-e5f6-4789-abcd-1234567890ab
+  ```
+
+- **Postman/Insomnia Example:**
+  - Set **Method** to `PUT`.
+  - Set **Body** to `raw` and select `JSON`.
+  - Paste the JSON payload into the body.
+
+### 5. `DELETE /api/articles/:id` - Delete an article
+
+Deletes a specific article by its UUID.
+
+- **Method:** `DELETE`
+- **URL:** `http://localhost:3000/api/articles/YOUR_ARTICLE_UUID`
+  _(Replace `YOUR_ARTICLE_UUID` with the UUID of the article you want to delete.)_
+- **`curl` Example:**
+
+  ```bash
+  curl -X DELETE http://localhost:3000/api/articles/a1b2c3d4-e5f6-4789-abcd-1234567890ab
+  ```
 
 ## TODOs
 
